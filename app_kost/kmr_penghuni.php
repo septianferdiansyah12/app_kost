@@ -1,3 +1,4 @@
+<?php include 'navbar.php'; ?>
 <?php
 include 'koneksi.php';
 
@@ -42,11 +43,28 @@ if (isset($_POST['edit'])) {
 $relasi = mysqli_query($conn, "SELECT r.*, k.nomor AS nomor_kamar, p.nama AS nama_penghuni FROM tb_kmr_penghuni r JOIN tb_kamar k ON r.id_kamar=k.id JOIN tb_penghuni p ON r.id_penghuni=p.id");
 ?>
 <!DOCTYPE html>
-<html>
+<html lang="id">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Relasi Kamar - Penghuni</title>
+    <style>
+        body { font-family: 'Segoe UI', Arial, sans-serif; background: #eaf4ff; margin: 0; }
+        .container { max-width: 900px; margin: 48px auto; background: #fff; border-radius: 14px; box-shadow: 0 2px 12px rgba(126,182,255,0.13); padding: 36px 32px 40px 32px; }
+        h2 { color: #2d3e50; border-left: 5px solid #7eb6ff; padding-left: 12px; margin-top: 0; margin-bottom: 24px; font-size: 1.25em; }
+        form { margin-bottom: 25px; }
+        input[type="text"], input[type="number"], input[type="date"], select { padding: 8px; border: 1px solid #bfc9d9; border-radius: 5px; margin-right: 10px; }
+        button, a.menu { background: #7eb6ff; color: #fff; border: none; border-radius: 5px; padding: 8px 18px; font-weight: 500; text-decoration: none; margin-right: 5px; transition: background 0.2s; cursor: pointer; }
+        button:hover, a.menu:hover { background: #4f8cff; }
+        table { width: 100%; border-collapse: collapse; background: #f5faff; border-radius: 7px; overflow: hidden; }
+        th, td { padding: 12px 14px; border-bottom: 1px solid #d6e6fa; text-align: left; }
+        th { background: #7eb6ff; color: #fff; font-weight: 600; }
+        tr:last-child td { border-bottom: none; }
+        @media (max-width: 600px) { .container { padding: 10px; } th, td { font-size: 13px; } }
+    </style>
 </head>
 <body>
+<div class="container">
     <h2>Relasi Kamar - Penghuni</h2>
     <form method="post">
         <input type="hidden" name="id" value="<?php if(isset($_GET['edit'])) echo $_GET['edit']; ?>">
@@ -78,11 +96,10 @@ $relasi = mysqli_query($conn, "SELECT r.*, k.nomor AS nomor_kamar, p.nama AS nam
             <?php echo isset($_GET['edit']) ? 'Update' : 'Tambah'; ?> Relasi
         </button>
         <?php if(isset($_GET['edit'])): ?>
-            <a href="kmr_penghuni.php">Batal</a>
+            <a href="kmr_penghuni.php" class="menu">Batal</a>
         <?php endif; ?>
     </form>
-    <br>
-    <table border="1" cellpadding="5" cellspacing="0">
+    <table>
         <tr>
             <th>No</th>
             <th>Kamar</th>
@@ -99,13 +116,14 @@ $relasi = mysqli_query($conn, "SELECT r.*, k.nomor AS nomor_kamar, p.nama AS nam
             <td><?= htmlspecialchars($row['tgl_masuk']); ?></td>
             <td><?= htmlspecialchars($row['tgl_keluar']); ?></td>
             <td>
-                <a href="kmr_penghuni.php?edit=<?= $row['id']; ?>">Edit</a> |
-                <a href="kmr_penghuni.php?hapus=<?= $row['id']; ?>" onclick="return confirm('Yakin hapus?')">Hapus</a>
+                <a href="kmr_penghuni.php?edit=<?= $row['id']; ?>" class="menu">Edit</a>
+                <a href="kmr_penghuni.php?hapus=<?= $row['id']; ?>" class="menu" onclick="return confirm('Yakin hapus?')">Hapus</a>
             </td>
         </tr>
         <?php endwhile; ?>
     </table>
     <br>
-    <a href="index.php">Kembali ke Beranda</a>
+    <a href="index.php" class="menu">Kembali ke Beranda</a>
+</div>
 </body>
 </html> 
